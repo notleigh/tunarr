@@ -309,8 +309,9 @@ const ChapterRuleFields = () => {
         }}
       />
       <FormControl fullWidth>
-        <InputLabel>{t`Fallback Rule`}</InputLabel>
+        <InputLabel id="mid-roll-fallback-rule-label">{t`Fallback Rule`}</InputLabel>
         <Select
+          labelId="mid-roll-fallback-rule-label"
           label={t`Fallback Rule`}
           value={fallbackType ?? 'none'}
           onChange={(e) => {
@@ -395,9 +396,10 @@ export const MidRollConfigPanel = () => {
         defaultValue="fixed_interval"
         render={({ field }) => (
           <FormControl fullWidth>
-            <InputLabel>Break Rule</InputLabel>
+            <InputLabel id="mid-roll-break-rule-label">{t`Break Rule`}</InputLabel>
             <Select
-              label="Break Rule"
+              labelId="mid-roll-break-rule-label"
+              label={t`Break Rule`}
               value={breakRuleType ?? 'fixed_interval'}
               onChange={(e) => {
                 const newType = e.target
