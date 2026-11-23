@@ -68,7 +68,7 @@ export class SlotSchedulerService {
   async schedule(
     request: SlotScheduleServiceRequest,
   ): Promise<RandomSlotCycleResult> {
-    const slotPrograms =
+    const { programs: slotPrograms, chapterMap } =
       await this.slotSchedulerHelper.collectSlotProgramming(request);
 
     if (request.strictValidation) {
@@ -90,6 +90,7 @@ export class SlotSchedulerService {
         endTime:
           request.endTime !== undefined ? dayjs(request.endTime) : undefined,
       },
+      chapterMap,
     );
   }
 }

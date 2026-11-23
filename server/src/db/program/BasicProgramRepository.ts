@@ -2,10 +2,13 @@ import type { ProgramExternalIdType } from '@/db/custom_types/ProgramExternalIdT
 import { KEYS } from '@/types/inject.js';
 import type { Maybe } from '@/types/util.js';
 import { isNonEmptyString } from '@/util/index.js';
+import { asc, eq, inArray } from 'drizzle-orm';
 import { inject, injectable } from 'inversify';
 import type { Kysely } from 'kysely';
 import { chunk, isEmpty, uniq } from 'lodash-es';
 import { throttledAccumulate, throttledLoop } from '../../util/seq.ts';
+import type { ProgramChapterType } from '../schema/ProgramChapter.ts';
+import { ProgramChapter } from '../schema/ProgramChapter.ts';
 import type { ProgramExternalId } from '../schema/ProgramExternalId.ts';
 import { ProgramGroupingType } from '../schema/ProgramGrouping.ts';
 import type { DB } from '../schema/db.ts';
@@ -15,6 +18,7 @@ import type {
   ProgramWithRelationsOrm,
 } from '../schema/derivedTypes.ts';
 import type { DrizzleDBAccess } from '../schema/index.ts';
+import { ProgramVersion } from '../schema/ProgramVersion.ts';
 import {
   GuideProgramRelations,
   GuideProgramRelationsWithCreditArtwork,
@@ -25,6 +29,12 @@ import {
   ProgramStreamRelations,
   StreamProgramRelations,
 } from './programRelations.ts';
+
+export type ProgramChapterTimes = {
+  startTime: number;
+  endTime: number;
+  chapterType: ProgramChapterType;
+};
 
 @injectable()
 export class BasicProgramRepository {
@@ -112,6 +122,43 @@ export class BasicProgramRepository {
         });
       },
     );
+  }
+
+  /**
+   * Loads the chapter markers of many programs at once, keyed by program ID
+   * and ordered by chapter index. Programs without chapters are absent.
+   * Assumes one version per program.
+   */
+  async getChaptersByProgramIds(
+    ids: string[] | readonly string[],
+    batchSize: number = 500,
+  ): Promise<Map<string, ProgramChapterTimes[]>> {
+    const result = new Map<string, ProgramChapterTimes[]>();
+    await throttledLoop(chunk(uniq(ids), batchSize), async (idChunk) => {
+      const rows = await this.drizzleDB
+        .select({
+          programId: ProgramVersion.programId,
+          startTime: ProgramChapter.startTime,
+          endTime: ProgramChapter.endTime,
+          chapterType: ProgramChapter.chapterType,
+        })
+        .from(ProgramVersion)
+        .innerJoin(
+          ProgramChapter,
+          eq(ProgramChapter.programVersionId, ProgramVersion.uuid),
+        )
+        .where(inArray(ProgramVersion.programId, idChunk))
+        .orderBy(asc(ProgramVersion.programId), asc(ProgramChapter.index));
+      for (const { programId, ...chapter } of rows) {
+        const existing = result.get(programId);
+        if (existing) {
+          existing.push(chapter);
+        } else {
+          result.set(programId, [chapter]);
+        }
+      }
+    });
+    return result;
   }
 
   async getGuideProgramsByIds(

@@ -36,6 +36,8 @@ export type FixtureIds = {
   libraryId: string;
   channelIds: string[];
   customShowId: string;
+  // A playlist holding the one movie with chapter markers.
+  chapteredShowId: string;
   fillerListId: string;
   smartCollectionId: string;
   transcodeConfigId: string;
@@ -226,6 +228,32 @@ export async function seed(): Promise<FixtureIds> {
     syncExternalPlaylistId: null,
   } satisfies CreateCustomShowData['body']);
 
+  // The only clip with chapter markers. Mid-roll specs schedule it through a
+  // custom-show slot.
+  const chapteredMovie = movies.programs.find((p) =>
+    p.program.title.startsWith('Color Bars'),
+  );
+  if (chapteredMovie === undefined) {
+    throw new Error('Movies library scanned without Color Bars');
+  }
+  const chapteredShow = await api<CreateCustomShowResponse>(
+    'POST',
+    '/custom-shows',
+    {
+      name: 'E2E Chaptered',
+      programs: [
+        {
+          type: 'content',
+          id: chapteredMovie.id,
+          duration: chapteredMovie.duration,
+        },
+      ],
+      syncMediaSourceId: null,
+      syncMediaSourceType: null,
+      syncExternalPlaylistId: null,
+    } satisfies CreateCustomShowData['body'],
+  );
+
   const smartCollection = await api<PostApiSmartCollectionsResponse>(
     'POST',
     '/smart_collections',
@@ -290,6 +318,7 @@ export async function seed(): Promise<FixtureIds> {
     libraryId: movies.libraryId,
     channelIds: [mixedChannel.id, episodicChannel.id, redirectChannel.id],
     customShowId: customShow.id,
+    chapteredShowId: chapteredShow.id,
     fillerListId: fillerList.id,
     smartCollectionId: smartCollection.uuid,
     transcodeConfigId: transcodeConfig.id,

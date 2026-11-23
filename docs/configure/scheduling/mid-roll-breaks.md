@@ -15,7 +15,7 @@ When editing a slot in the Slot Editor or Time Slots editor, add a filler list a
 
 ## Break Positioning
 
-Mid-roll breaks support three positioning rules that control _where_ breaks are inserted within a program.
+Mid-roll breaks support four positioning rules that control _where_ breaks are inserted within a program.
 
 ### Fixed Interval
 
@@ -48,6 +48,22 @@ Combines an initial delay before the first break with a regular interval for sub
 
 A 2-hour movie with a 15-minute initial delay and 30-minute interval gets breaks at 15m, 45m, 75m, and 105m.
 
+### Chapter Markers
+
+Inserts a break at the end of each chapter, so breaks fall at the program's natural scene or act boundaries. No break follows the last chapter.
+
+| Setting | Description |
+|---------|-------------|
+| **Marker types** | Which markers count: **Chapters** (the default), **Intro markers**, and **Credits markers**. A break follows the end of each selected marker except the last. |
+| **Fallback Rule** | The rule used for programs that have no markers of the selected types: Fixed Interval, Percentage-Based, Initial Delay + Interval, or None. With **None**, those programs get no breaks. |
+
+An episode with chapters ending at 7, 16, and 22 minutes gets breaks at 7m and 16m.
+
+Chapters are read when Tunarr scans a library: from the file itself for local media, and from Plex or Jellyfin for those servers. Programs from a library that has not been scanned since you added it have no chapters, so they use the fallback rule. Intro and credits markers come only from Plex.
+
+!!! tip
+    Blu-ray and DVD movies often have a chapter every 4 to 6 minutes, which would mean a break every few minutes. For movie libraries, set **Min Break Interval** to 10–15 minutes, or limit **Max Breaks**.
+
 ## Break Duration
 
 Break duration can be configured in two modes:
@@ -64,6 +80,7 @@ In a time slot, breaks only use the slot's spare time, which is the padding and 
 | **Max Breaks** | Maximum number of breaks per program. 0 = unlimited. | 0 |
 | **Minimum Program Duration** | Programs shorter than this are skipped entirely. | Fitted to the slot |
 | **Tail Buffer** | Minimum amount of content preserved at the end of the program before the credits. No breaks are inserted within this window. | 0 |
+| **Min Break Interval** | Skips any break that would start less than this long after the previous break (or the start of the program). Applies to every positioning rule, and before **Max Breaks**. Empty = no minimum. | Empty |
 | **Program Types** | Restrict mid-roll to specific content types (Movies, Episodes, Music Tracks, Music Videos, Other Videos). Empty = all types. | All |
 
 ### Starting Values

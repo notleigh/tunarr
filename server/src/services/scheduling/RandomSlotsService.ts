@@ -32,6 +32,7 @@ import type {
   SlotIteratorState,
 } from './slotIteratorState.ts';
 import type {
+  ChapterMap,
   PaddedProgram,
   SlotIteratorResult,
   SlotSchedulerProgram,
@@ -251,6 +252,7 @@ export class RandomSlotScheduler {
     discardCount: number = 0,
     startTime: dayjs.Dayjs = dayjs.tz(),
     cycle: SlotCycleOptions = {},
+    chapterMap: ChapterMap = new Map(),
   ): RandomSlotCycleResult {
     this.validateSchedule();
 
@@ -375,6 +377,8 @@ export class RandomSlotScheduler {
             currSlot.midRollConfig,
             context.random,
             +context.timeCursor + midRollOffset,
+            Infinity,
+            chapterMap,
           ),
         );
         midRollOffset += pp.totalDuration;

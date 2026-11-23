@@ -11,6 +11,7 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -21,16 +22,31 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import type { MidRollConfig } from '@tunarr/types/api';
+import type { MidRollChapterType, MidRollConfig } from '@tunarr/types/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import {
+  defaultBaseBreakRule,
+  defaultBreakRule,
+} from '../../helpers/midRollDefaults.ts';
 
-type MidRollBreakRuleFormFields = {
-  type: 'fixed_interval' | 'percentage' | 'initial_then_interval';
+type BaseBreakRuleType =
+  | 'fixed_interval'
+  | 'percentage'
+  | 'initial_then_interval';
+
+type BaseBreakRuleFormFields = {
+  type: BaseBreakRuleType;
   intervalMs?: number;
   points?: number[];
   initialDelayMs?: number;
+};
+
+type MidRollBreakRuleFormFields = Omit<BaseBreakRuleFormFields, 'type'> & {
+  type: BaseBreakRuleType | 'chapters';
+  chapterTypes?: MidRollChapterType[];
+  fallback?: BaseBreakRuleFormFields;
 };
 
 type MidRollFormFields = {
@@ -40,6 +56,7 @@ type MidRollFormFields = {
     maxBreaks: number;
     minProgramDurationMs: number;
     tailBufferMs: number;
+    minBreakIntervalMs?: number;
     breakDurationMs?: number;
     breakDurationMinMs?: number;
     breakDurationMaxMs?: number;
@@ -63,14 +80,27 @@ const allProgramTypes = Object.keys(programTypeLabels) as NonNullable<
   MidRollConfig['programTypes']
 >;
 
-const breakRuleLabels: Record<
-  MidRollBreakRuleFormFields['type'],
-  MessageDescriptor
-> = {
+const baseBreakRuleLabels: Record<BaseBreakRuleType, MessageDescriptor> = {
   fixed_interval: msg`Fixed Interval`,
   percentage: msg`Percentage-Based`,
   initial_then_interval: msg`Initial Delay + Interval`,
 };
+
+const breakRuleLabels: Record<
+  MidRollBreakRuleFormFields['type'],
+  MessageDescriptor
+> = {
+  ...baseBreakRuleLabels,
+  chapters: msg`Chapter Markers`,
+};
+
+const chapterTypeLabels: Record<MidRollChapterType, MessageDescriptor> = {
+  chapter: msg`Chapters`,
+  intro: msg`Intro markers`,
+  outro: msg`Credits markers`,
+};
+
+const allChapterTypes = Object.keys(chapterTypeLabels) as MidRollChapterType[];
 
 function msToMinutes(ms: number): number {
   return Math.round(dayjs.duration(ms).asMinutes());
@@ -80,56 +110,19 @@ function minutesToMs(minutes: number): number {
   return dayjs.duration({ minutes }).asMilliseconds();
 }
 
-export const MidRollConfigPanel = () => {
-  const { control, watch, setValue, getValues } =
-    useFormContext<MidRollFormFields>();
+type BreakRuleFieldsProps = {
+  // Where the rule lives in the form: the primary rule, or the fallback of a
+  // chapters rule.
+  pathPrefix: 'midRoll.breakRule' | 'midRoll.breakRule.fallback';
+};
 
-  const breakRuleType = watch('midRoll.breakRule.type');
-  const points = watch('midRoll.breakRule.points');
-  const strategy = watch('midRoll.strategy');
+// The settings of a fixed interval, percentage, or initial delay rule.
+const BreakRuleFields = ({ pathPrefix }: BreakRuleFieldsProps) => {
+  const { control, watch, setValue } = useFormContext<MidRollFormFields>();
 
+  const ruleType = watch(`${pathPrefix}.type`);
+  const points = watch(`${pathPrefix}.points`);
   const [newPoint, setNewPoint] = useState('');
-  const [durationMode, setDurationMode] = useState<'fixed' | 'range'>(() =>
-    getValues('midRoll.breakDurationMinMs') !== undefined ? 'range' : 'fixed',
-  );
-
-  // Migrate V1 intervalMs to breakRule on mount
-  useEffect(() => {
-    const breakRule = getValues('midRoll.breakRule');
-    const intervalMs = getValues('midRoll.intervalMs');
-    if (!breakRule && intervalMs) {
-      setValue('midRoll.breakRule', {
-        type: 'fixed_interval',
-        intervalMs,
-      });
-    }
-  }, [getValues, setValue]);
-
-  const handleBreakRuleTypeChange = (
-    newType: MidRollBreakRuleFormFields['type'],
-  ) => {
-    switch (newType) {
-      case 'fixed_interval':
-        setValue('midRoll.breakRule', {
-          type: 'fixed_interval',
-          intervalMs: minutesToMs(30),
-        });
-        break;
-      case 'percentage':
-        setValue('midRoll.breakRule', {
-          type: 'percentage',
-          points: [50],
-        });
-        break;
-      case 'initial_then_interval':
-        setValue('midRoll.breakRule', {
-          type: 'initial_then_interval',
-          initialDelayMs: minutesToMs(15),
-          intervalMs: minutesToMs(30),
-        });
-        break;
-    }
-  };
 
   const handleAddPoint = () => {
     const value = Number(newPoint);
@@ -137,7 +130,7 @@ export const MidRollConfigPanel = () => {
     const current = points ?? [];
     if (current.includes(value)) return;
     setValue(
-      'midRoll.breakRule.points',
+      `${pathPrefix}.points`,
       [...current, value].sort((a, b) => a - b),
     );
     setNewPoint('');
@@ -146,61 +139,17 @@ export const MidRollConfigPanel = () => {
   const handleRemovePoint = (value: number) => {
     const current = points ?? [];
     setValue(
-      'midRoll.breakRule.points',
+      `${pathPrefix}.points`,
       current.filter((p) => p !== value),
     );
   };
 
-  const handleDurationModeChange = (mode: 'fixed' | 'range') => {
-    setDurationMode(mode);
-    if (mode === 'fixed') {
-      setValue('midRoll.breakDurationMs', minutesToMs(3));
-      setValue('midRoll.breakDurationMinMs', undefined);
-      setValue('midRoll.breakDurationMaxMs', undefined);
-    } else {
-      setValue('midRoll.breakDurationMs', undefined);
-      setValue('midRoll.breakDurationMinMs', minutesToMs(2));
-      setValue('midRoll.breakDurationMaxMs', minutesToMs(5));
-    }
-  };
-
   return (
-    <Stack spacing={2}>
-      {/* Section 1: Break Positioning */}
-      <Typography variant="subtitle2">
-        <Trans>Break Positioning</Trans>
-      </Typography>
-      <Controller
-        control={control}
-        name="midRoll.breakRule.type"
-        defaultValue="fixed_interval"
-        render={({ field }) => (
-          <FormControl fullWidth>
-            <InputLabel>Break Rule</InputLabel>
-            <Select
-              label="Break Rule"
-              value={breakRuleType ?? 'fixed_interval'}
-              onChange={(e) => {
-                const newType = e.target
-                  .value as MidRollBreakRuleFormFields['type'];
-                field.onChange(newType);
-                handleBreakRuleTypeChange(newType);
-              }}
-            >
-              {Object.entries(breakRuleLabels).map(([value, label]) => (
-                <MenuItem key={value} value={value}>
-                  {i18n.t(label)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-      />
-
-      {breakRuleType === 'fixed_interval' && (
+    <>
+      {ruleType === 'fixed_interval' && (
         <Controller
           control={control}
-          name="midRoll.breakRule.intervalMs"
+          name={`${pathPrefix}.intervalMs`}
           render={({ field }) => (
             <TextField
               label={t`Break Interval (minutes)`}
@@ -216,7 +165,7 @@ export const MidRollConfigPanel = () => {
         />
       )}
 
-      {breakRuleType === 'percentage' && (
+      {ruleType === 'percentage' && (
         <Stack spacing={1}>
           <Typography variant="body2" color="text.secondary">
             <Trans>
@@ -265,11 +214,11 @@ export const MidRollConfigPanel = () => {
         </Stack>
       )}
 
-      {breakRuleType === 'initial_then_interval' && (
+      {ruleType === 'initial_then_interval' && (
         <Stack direction="row" spacing={2}>
           <Controller
             control={control}
-            name="midRoll.breakRule.initialDelayMs"
+            name={`${pathPrefix}.initialDelayMs`}
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -290,7 +239,7 @@ export const MidRollConfigPanel = () => {
           />
           <Controller
             control={control}
-            name="midRoll.breakRule.intervalMs"
+            name={`${pathPrefix}.intervalMs`}
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -308,6 +257,171 @@ export const MidRollConfigPanel = () => {
             )}
           />
         </Stack>
+      )}
+    </>
+  );
+};
+
+// Settings of the chapters rule: which marker types to break after, and the
+// rule for programs without such chapters.
+const ChapterRuleFields = () => {
+  const { control, watch, setValue } = useFormContext<MidRollFormFields>();
+  const fallbackType = watch('midRoll.breakRule.fallback.type');
+
+  return (
+    <Stack spacing={2}>
+      <Controller
+        control={control}
+        name="midRoll.breakRule.chapterTypes"
+        render={({ field }) => {
+          const selected = field.value ?? ['chapter'];
+          const handleChange = (type: MidRollChapterType, checked: boolean) => {
+            field.onChange(
+              checked
+                ? [...selected, type]
+                : selected.filter((t) => t !== type),
+            );
+          };
+          return (
+            <FormControl component="fieldset">
+              <Typography variant="body2" color="text.secondary">
+                <Trans>
+                  Insert a break at the end of each marker of these types,
+                  except the last
+                </Trans>
+              </Typography>
+              <FormGroup row>
+                {allChapterTypes.map((type) => (
+                  <FormControlLabel
+                    key={type}
+                    control={
+                      <Checkbox
+                        checked={selected.includes(type)}
+                        onChange={(e) => handleChange(type, e.target.checked)}
+                      />
+                    }
+                    label={i18n.t(chapterTypeLabels[type])}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          );
+        }}
+      />
+      <FormControl fullWidth>
+        <InputLabel id="mid-roll-fallback-rule-label">{t`Fallback Rule`}</InputLabel>
+        <Select
+          labelId="mid-roll-fallback-rule-label"
+          label={t`Fallback Rule`}
+          value={fallbackType ?? 'none'}
+          onChange={(e) => {
+            const value = e.target.value;
+            setValue(
+              'midRoll.breakRule.fallback',
+              value === 'none'
+                ? undefined
+                : defaultBaseBreakRule(value as BaseBreakRuleType),
+            );
+          }}
+        >
+          <MenuItem value="none">{t`None`}</MenuItem>
+          {Object.entries(baseBreakRuleLabels).map(([value, label]) => (
+            <MenuItem key={value} value={value}>
+              {i18n.t(label)}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText>
+          {t`Used for programs without chapter markers. With no fallback, those programs get no breaks.`}
+        </FormHelperText>
+      </FormControl>
+      {fallbackType && (
+        <BreakRuleFields pathPrefix="midRoll.breakRule.fallback" />
+      )}
+    </Stack>
+  );
+};
+
+export const MidRollConfigPanel = () => {
+  const { control, watch, setValue, getValues } =
+    useFormContext<MidRollFormFields>();
+
+  const breakRuleType = watch('midRoll.breakRule.type');
+  const strategy = watch('midRoll.strategy');
+
+  const [durationMode, setDurationMode] = useState<'fixed' | 'range'>(() =>
+    getValues('midRoll.breakDurationMinMs') !== undefined ? 'range' : 'fixed',
+  );
+
+  // Migrate V1 intervalMs to breakRule on mount
+  useEffect(() => {
+    const breakRule = getValues('midRoll.breakRule');
+    const intervalMs = getValues('midRoll.intervalMs');
+    if (!breakRule && intervalMs) {
+      setValue('midRoll.breakRule', {
+        type: 'fixed_interval',
+        intervalMs,
+      });
+    }
+  }, [getValues, setValue]);
+
+  const handleBreakRuleTypeChange = (
+    newType: MidRollBreakRuleFormFields['type'],
+  ) => {
+    setValue('midRoll.breakRule', defaultBreakRule(newType));
+  };
+
+  const handleDurationModeChange = (mode: 'fixed' | 'range') => {
+    setDurationMode(mode);
+    if (mode === 'fixed') {
+      setValue('midRoll.breakDurationMs', minutesToMs(3));
+      setValue('midRoll.breakDurationMinMs', undefined);
+      setValue('midRoll.breakDurationMaxMs', undefined);
+    } else {
+      setValue('midRoll.breakDurationMs', undefined);
+      setValue('midRoll.breakDurationMinMs', minutesToMs(2));
+      setValue('midRoll.breakDurationMaxMs', minutesToMs(5));
+    }
+  };
+
+  return (
+    <Stack spacing={2}>
+      {/* Section 1: Break Positioning */}
+      <Typography variant="subtitle2">
+        <Trans>Break Positioning</Trans>
+      </Typography>
+      <Controller
+        control={control}
+        name="midRoll.breakRule.type"
+        defaultValue="fixed_interval"
+        render={({ field }) => (
+          <FormControl fullWidth>
+            <InputLabel id="mid-roll-break-rule-label">{t`Break Rule`}</InputLabel>
+            <Select
+              labelId="mid-roll-break-rule-label"
+              label={t`Break Rule`}
+              value={breakRuleType ?? 'fixed_interval'}
+              onChange={(e) => {
+                const newType = e.target
+                  .value as MidRollBreakRuleFormFields['type'];
+                field.onChange(newType);
+                handleBreakRuleTypeChange(newType);
+              }}
+            >
+              {Object.entries(breakRuleLabels).map(([value, label]) => (
+                <MenuItem key={value} value={value}>
+                  {i18n.t(label)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+      />
+
+      {breakRuleType === 'chapters' ? (
+        <ChapterRuleFields />
+      ) : (
+        <BreakRuleFields pathPrefix="midRoll.breakRule" />
       )}
 
       <Divider />
@@ -451,6 +565,28 @@ export const MidRollConfigPanel = () => {
               field.onChange(minutesToMs(Number(e.target.value)))
             }
             helperText={`Skip breaks when less than this much content remains`}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="midRoll.minBreakIntervalMs"
+        render={({ field }) => (
+          <TextField
+            label={t`Min Break Interval (minutes)`}
+            type="number"
+            slotProps={{
+              htmlInput: { min: 0 },
+            }}
+            value={field.value !== undefined ? msToMinutes(field.value) : ''}
+            onChange={(e) =>
+              field.onChange(
+                e.target.value === ''
+                  ? undefined
+                  : minutesToMs(Number(e.target.value)),
+              )
+            }
+            helperText={t`Skip breaks that are closer together than this`}
           />
         )}
       />

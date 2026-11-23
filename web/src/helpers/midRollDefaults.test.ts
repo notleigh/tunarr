@@ -7,6 +7,8 @@ import {
   makeShowGrouping,
 } from '../test/programFixtures.ts';
 import {
+  defaultBaseBreakRule,
+  defaultBreakRule,
   deriveMidRollDefaults,
   FallbackMidRollDefaults,
 } from './midRollDefaults.ts';
@@ -122,5 +124,30 @@ describe('deriveMidRollDefaults', () => {
     expect(deriveMidRollDefaults(showSlot('show-1'), [])).toEqual(
       FallbackMidRollDefaults,
     );
+  });
+});
+
+describe('defaultBreakRule', () => {
+  test('starts the chapters rule with plain chapters and no fallback', () => {
+    expect(defaultBreakRule('chapters')).toEqual({
+      type: 'chapters',
+      chapterTypes: ['chapter'],
+    });
+  });
+
+  test('uses the base defaults for the other rules', () => {
+    expect(defaultBreakRule('fixed_interval')).toEqual({
+      type: 'fixed_interval',
+      intervalMs: 30 * OneMinute,
+    });
+    expect(defaultBaseBreakRule('percentage')).toEqual({
+      type: 'percentage',
+      points: [50],
+    });
+    expect(defaultBaseBreakRule('initial_then_interval')).toEqual({
+      type: 'initial_then_interval',
+      initialDelayMs: 15 * OneMinute,
+      intervalMs: 30 * OneMinute,
+    });
   });
 });

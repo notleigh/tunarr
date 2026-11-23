@@ -33,6 +33,7 @@ import type { NewGenre } from '../schema/Genre.ts';
 import type { ProgramGroupingType } from '../schema/ProgramGrouping.ts';
 import type { MediaSourceId, MediaSourceType } from '../schema/base.js';
 import type { PageParams } from './IChannelDB.ts';
+import type { ProgramChapterTimes } from '../program/BasicProgramRepository.ts';
 
 export interface IProgramDB {
   // TODO: Allow null narrowing on mediaSourceId
@@ -67,6 +68,14 @@ export interface IProgramDB {
     ids: string[] | readonly string[],
     batchSize?: number,
   ): Promise<ProgramOrmWithExternalIds[]>;
+
+  /**
+   * Loads chapter markers for many programs, keyed by program ID. Programs
+   * without chapters are absent from the map.
+   */
+  getChaptersByProgramIds(
+    ids: string[] | readonly string[],
+  ): Promise<Map<string, ProgramChapterTimes[]>>;
 
   /**
    * Loads programs with only the relations the XMLTV writer reads. See

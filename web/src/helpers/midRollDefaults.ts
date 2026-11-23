@@ -1,5 +1,10 @@
 import type { ContentProgram } from '@tunarr/types';
-import type { BaseSlot, MidRollConfig } from '@tunarr/types/api';
+import type {
+  BaseMidRollBreakRule,
+  BaseSlot,
+  MidRollBreakRule,
+  MidRollConfig,
+} from '@tunarr/types/api';
 import { clamp } from 'lodash-es';
 import { slotProgramDurationsMs } from './slots.ts';
 
@@ -83,4 +88,39 @@ export function deriveMidRollDefaults(
     programTypes: [],
     strategy: 'eager',
   };
+}
+
+/** Starting settings for a break rule picked in the slot editor. */
+export function defaultBaseBreakRule(
+  type: BaseMidRollBreakRule['type'],
+): BaseMidRollBreakRule {
+  switch (type) {
+    case 'fixed_interval':
+      return { type: 'fixed_interval', intervalMs: 30 * OneMinuteMs };
+    case 'percentage':
+      return { type: 'percentage', points: [50] };
+    case 'initial_then_interval':
+      return {
+        type: 'initial_then_interval',
+        initialDelayMs: 15 * OneMinuteMs,
+        intervalMs: 30 * OneMinuteMs,
+      };
+  }
+}
+
+/**
+ * Like `defaultBaseBreakRule`, plus the chapters rule, which starts with
+ * plain chapters and no fallback.
+ */
+export function defaultBreakRule(
+  type: MidRollBreakRule['type'],
+): MidRollBreakRule {
+  switch (type) {
+    case 'fixed_interval':
+    case 'percentage':
+    case 'initial_then_interval':
+      return defaultBaseBreakRule(type);
+    case 'chapters':
+      return { type: 'chapters', chapterTypes: ['chapter'] };
+  }
 }
