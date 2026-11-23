@@ -40,7 +40,7 @@ export const SlotFiller = z.object({
 
 export type SlotFiller = z.infer<typeof SlotFiller>;
 
-export const MidRollBreakRuleSchema = z.discriminatedUnion('type', [
+export const BaseMidRollBreakRuleSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('fixed_interval'),
     intervalMs: z.number().positive(),
@@ -56,6 +56,23 @@ export const MidRollBreakRuleSchema = z.discriminatedUnion('type', [
   }),
 ]);
 
+export type BaseMidRollBreakRule = z.infer<typeof BaseMidRollBreakRuleSchema>;
+
+export const MidRollChapterTypeSchema = z.enum(['chapter', 'intro', 'outro']);
+
+export type MidRollChapterType = z.infer<typeof MidRollChapterTypeSchema>;
+
+export const MidRollBreakRuleSchema = z.discriminatedUnion('type', [
+  ...BaseMidRollBreakRuleSchema.options,
+  z.object({
+    type: z.literal('chapters'),
+    // Break at the end of each chapter of these types, except the last.
+    chapterTypes: z.array(MidRollChapterTypeSchema).default(['chapter']),
+    // Used for programs that have no chapters of the selected types.
+    fallback: BaseMidRollBreakRuleSchema.optional(),
+  }),
+]);
+
 export type MidRollBreakRule = z.infer<typeof MidRollBreakRuleSchema>;
 
 export const MidRollConfigSchema = z
@@ -67,6 +84,9 @@ export const MidRollConfigSchema = z
     maxBreaks: z.number().int().nonnegative(),
     minProgramDurationMs: z.number().nonnegative(),
     tailBufferMs: z.number().nonnegative().default(0),
+    // Skip any break that starts less than this long after the previous break
+    // (or the program start).
+    minBreakIntervalMs: z.number().nonnegative().optional(),
     // Fixed duration (V1). Used when min/max are not set.
     breakDurationMs: z.number().positive().optional(),
     // Duration range (V2). System picks a random duration in [min, max] per break.

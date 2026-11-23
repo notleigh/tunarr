@@ -3870,10 +3870,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -3935,10 +3950,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -3977,10 +4007,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4031,10 +4076,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4072,10 +4132,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4149,10 +4224,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4207,10 +4297,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4245,10 +4350,25 @@ export type GetApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4401,10 +4521,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4466,10 +4601,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4508,10 +4658,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4562,10 +4727,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4609,10 +4789,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4686,10 +4881,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4744,10 +4954,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4782,10 +5007,25 @@ export type PostApiChannelsByIdProgrammingData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -4961,10 +5201,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5026,10 +5281,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5068,10 +5338,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5122,10 +5407,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5163,10 +5463,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5240,10 +5555,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5298,10 +5628,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5336,10 +5681,25 @@ export type PostApiChannelsByIdProgrammingResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5481,10 +5841,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5660,10 +6035,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5722,10 +6112,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5780,10 +6185,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -5829,10 +6249,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6025,10 +6460,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6095,10 +6545,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6140,10 +6605,25 @@ export type GetApiChannelsByIdScheduleResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6640,10 +7120,25 @@ export type PostApiChannelsByChannelIdScheduleTimeSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6705,10 +7200,25 @@ export type PostApiChannelsByChannelIdScheduleTimeSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6747,10 +7257,25 @@ export type PostApiChannelsByChannelIdScheduleTimeSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6801,10 +7326,25 @@ export type PostApiChannelsByChannelIdScheduleTimeSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -6930,10 +7470,25 @@ export type PostApiChannelsByChannelIdScheduleSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -7007,10 +7562,25 @@ export type PostApiChannelsByChannelIdScheduleSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -7065,10 +7635,25 @@ export type PostApiChannelsByChannelIdScheduleSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -7103,10 +7688,25 @@ export type PostApiChannelsByChannelIdScheduleSlotsData = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes?: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs?: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -15403,10 +16003,25 @@ export type GetApiAutoChannelsPresetsResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;
@@ -15448,10 +16063,25 @@ export type GetApiAutoChannelsPresetsResponses = {
                         type: 'initial_then_interval';
                         initialDelayMs: number;
                         intervalMs: number;
+                    } | {
+                        type: 'chapters';
+                        chapterTypes: Array<'chapter' | 'intro' | 'outro'>;
+                        fallback?: {
+                            type: 'fixed_interval';
+                            intervalMs: number;
+                        } | {
+                            type: 'percentage';
+                            points: Array<number>;
+                        } | {
+                            type: 'initial_then_interval';
+                            initialDelayMs: number;
+                            intervalMs: number;
+                        };
                     };
                     maxBreaks: number;
                     minProgramDurationMs: number;
                     tailBufferMs: number;
+                    minBreakIntervalMs?: number;
                     breakDurationMs?: number;
                     breakDurationMinMs?: number;
                     breakDurationMaxMs?: number;

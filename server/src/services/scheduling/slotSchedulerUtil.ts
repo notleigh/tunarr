@@ -57,6 +57,7 @@ import {
 } from '../../util/index.ts';
 import { LoggerFactory } from '../../util/logging/LoggerFactory.ts';
 import { FlexProgramIterator } from './FlexProgramIterator.ts';
+import type { ChapterInfo } from './midRollBreakRules.ts';
 import {
   minimumBreakDuration,
   resolveBreakDuration,
@@ -1015,6 +1016,9 @@ export function createIndexByIdMap(
   );
 }
 
+// Chapter markers keyed by program ID, used by the `chapters` break rule.
+export type ChapterMap = Map<string, ChapterInfo[]>;
+
 // Programs a mid-roll break can split into segments.
 type SplittableProgram = CondensedContentProgram | CondensedCustomProgram;
 
@@ -1025,6 +1029,7 @@ export function applyMidRollBreaks(
   random: Random,
   timeCursor: number,
   maxBreakMs: number = Infinity,
+  chapterMap: ChapterMap = new Map(),
 ): PaddedProgram[] {
   if (!midRollConfig || slot.getMidFillerListIds().length === 0) {
     return [paddedProgram];
@@ -1048,7 +1053,11 @@ export function applyMidRollBreaks(
   }
 
   const programDurationMs = program.duration;
-  const breakPoints = resolveBreakPoints(programDurationMs, midRollConfig);
+  const breakPoints = resolveBreakPoints(
+    programDurationMs,
+    midRollConfig,
+    chapterMap.get(program.id),
+  );
   if (!breakPoints) return [paddedProgram];
 
   if (midRollConfig.strategy === 'lazy') {

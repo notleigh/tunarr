@@ -30,6 +30,7 @@ import type { NonEmptyArray } from 'ts-essentials';
 import type { Nilable } from '../../types/util.ts';
 import { LoggerFactory } from '../../util/logging/LoggerFactory.ts';
 import type {
+  ChapterMap,
   PaddedProgram,
   SlotSchedulerProgram,
 } from './slotSchedulerUtil.js';
@@ -106,6 +107,7 @@ export async function scheduleTimeSlots(
   discardCount: number = 0,
   startTime: dayjs.Dayjs = dayjs.tz(),
   cycle: SlotCycleOptions = {},
+  chapterMap: ChapterMap = new Map(),
 ): Promise<TimeSlotCycleResult> {
   const mt = MersenneTwister19937.seedWithArray(seed).discard(discardCount);
   const random = new Random(mt);
@@ -393,6 +395,7 @@ export async function scheduleTimeSlots(
         random,
         +timeCursor + midRollOffset,
         breakBudgetMs,
+        chapterMap,
       );
       const breakMs = sumBy(segments, (s) => s.totalDuration) - unsplitDuration;
       breakBudgetMs -= breakMs;

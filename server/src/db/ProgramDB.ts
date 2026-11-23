@@ -13,7 +13,10 @@ import { inject, injectable } from 'inversify';
 import type { Dictionary, MarkOptional, StrictExclude } from 'ts-essentials';
 import type { ProgramExternalIdType } from './custom_types/ProgramExternalIdType.js';
 import type { PageParams } from './interfaces/IChannelDB.js';
-import type { BasicProgramRepository } from './program/BasicProgramRepository.ts';
+import type {
+  BasicProgramRepository,
+  ProgramChapterTimes,
+} from './program/BasicProgramRepository.ts';
 import type { ProgramExternalIdRepository } from './program/ProgramExternalIdRepository.ts';
 import type { ProgramGroupingRepository } from './program/ProgramGroupingRepository.ts';
 import type { ProgramGroupingUpsertRepository } from './program/ProgramGroupingUpsertRepository.ts';
@@ -110,6 +113,12 @@ export class ProgramDB implements IProgramDB {
     batchSize?: number,
   ): Promise<ProgramOrmWithExternalIds[]> {
     return this.basicProg.getProgramsByIds(ids, batchSize);
+  }
+
+  getChaptersByProgramIds(
+    ids: string[] | readonly string[],
+  ): Promise<Map<string, ProgramChapterTimes[]>> {
+    return this.basicProg.getChaptersByProgramIds(ids);
   }
 
   getGuideProgramsByIds(

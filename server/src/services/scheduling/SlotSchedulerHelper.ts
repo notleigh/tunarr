@@ -29,6 +29,7 @@ import {
 import { filterValues, flipMap } from '../../util/seq.ts';
 import type { SlotScheduleServiceRequest } from './RandomSlotSchedulerService.ts';
 import type {
+  ChapterMap,
   CustomShowContext,
   SlotSchedulerProgram,
 } from './slotSchedulerUtil.ts';
@@ -49,7 +50,7 @@ export class SlotSchedulerHelper {
 
   async collectSlotProgramming(
     request: TimeSlotScheduleServiceRequest | SlotScheduleServiceRequest,
-  ) {
+  ): Promise<{ programs: SlotSchedulerProgram[]; chapterMap: ChapterMap }> {
     let programs: ProgramWithRelationsOrm[];
     if (request.type === 'channel') {
       programs = await this.getPrograms(request.channelId);
@@ -115,7 +116,12 @@ export class SlotSchedulerHelper {
       });
     }
 
-    return slotPrograms;
+    // Chapter markers for the `chapters` mid-roll break rule.
+    const chapterMap = await this.programDB.getChaptersByProgramIds([
+      ...seenContentIds,
+    ]);
+
+    return { programs: slotPrograms, chapterMap };
   }
 
   // New requests must not reference a custom show with nothing to schedule.
