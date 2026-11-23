@@ -21,9 +21,17 @@ This feature adds a new `chapters` break rule type that uses these stored chapte
 9. **Keep `chapterTypes` filter** -- low cost, good future-proofing for intro/outro markers.
 10. **Chapter times are milliseconds** in the DB -- all sources (ffprobe, Plex, Jellyfin) store ms. No conversion needed at query time.
 
-## Pre-existing bug noted
+## Scope (confirmed 2026-11-23)
 
-Jellyfin `startTime` is stored as raw ticks instead of milliseconds in `JellyfinApiClient.ts:1270`. The `endTime` is correctly divided by 10,000 (ticks → ms) but `startTime` is not. This is a separate fix.
+- **Target branch**: `main`.
+- **Emby is out of scope.** `EmbyApiClient` requests chapters but never maps them, so Emby programs have no `program_chapter` rows and always use the fallback rule (or get no breaks). The docs do not mention Emby.
+- **Intro/outro markers stay future-proofing** (Decision 9). Under Decision 1, a lone `intro` or `outro` is the last matching chapter and produces no break, and an outro's `endTime` sits at the program's end. Marker-specific placement (break after the intro, break before the credits) is a follow-up. A pre-credits break would also need an exemption from the tail check, which requires a full break's length of content after the break point.
+- **Limit order**: rule offsets, then `minBreakIntervalMs`, then `tailBufferMs`, then `maxBreaks`.
+- **Rounding**: Jellyfin chapter start times can be fractional ms, so chapter break offsets are rounded.
+- **Bulk chapter query** is a Drizzle method on a program repository, called from `SlotSchedulerHelper`.
+- **Also required**: update `docs/configure/scheduling/mid-roll-breaks.md` (Chapter Markers rule, fallback, minimum break interval, and a tip to set a 10-15 minute minimum interval for movie libraries with dense chapters), and add a row to `architecture/infinite-schedules/parity-checklist.md`.
+
+The Jellyfin chapter `startTime` ticks bug noted in the original draft has been fixed (`JellyfinApiClient.ts` now divides by 10,000).
 
 ## Implementation
 
